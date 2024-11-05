@@ -443,9 +443,9 @@ export class SystemTextJsonCSharpRenderer extends CSharpRenderer {
                     variableName,
                     " = (",
                     typeSource,
-                    ")converter.ReadJson(reader, typeof(",
+                    ")converter.Read(ref reader, typeof(",
                     typeSource,
-                    "), null, serializer);"
+                    "), options);"
                 );
             } else if (source.kind !== "null") {
                 let output = targetType.kind === "double" ? targetType : source;
@@ -462,7 +462,7 @@ export class SystemTextJsonCSharpRenderer extends CSharpRenderer {
             // FIXME: handle EOF
             this.emitLine("reader.Read();");
             this.emitLine("var ", variableName, " = new List<", this.csType(targetType.items), ">();");
-            this.emitLine("while (reader.TokenType != JsonToken.EndArray)");
+            this.emitLine("while (reader.TokenType != JsonTokenType.EndArray)");
             this.emitBlock(() => {
                 this.emitDecodeTransformer(
                     xfer.itemTransformer,
@@ -636,7 +636,7 @@ export class SystemTextJsonCSharpRenderer extends CSharpRenderer {
             const converter = this.converterForType(xfer.sourceType);
             if (converter !== undefined) {
                 this.emitLine("var converter = ", this.converterObject(converter), ";");
-                this.emitLine("converter.WriteJson(writer, ", variable, ", serializer);");
+                this.emitLine("converter.Write(writer, ", variable, ", options);");
             } else {
                 this.emitLine(this.serializeValueCode(variable), ";");
             }
