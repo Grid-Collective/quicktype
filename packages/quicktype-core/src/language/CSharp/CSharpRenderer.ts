@@ -16,7 +16,6 @@ import { type cSharpOptions } from "./language";
 import {
     AccessModifier,
     csTypeForTransformedStringType,
-    isValueType,
     namingFunction,
     namingFunctionKeep,
     noFollow
@@ -125,11 +124,7 @@ export class CSharpRenderer extends ConvenienceRenderer {
     protected nullableCSType(t: Type, follow: (t: Type) => Type = followTargetType, withIssues = false): Sourcelike {
         t = followTargetType(t);
         const csType = this.csType(t, follow, withIssues);
-        if (isValueType(t)) {
-            return [csType, "?"];
-        } else {
-            return csType;
-        }
+        return [csType, "?"];
     }
 
     protected baseclassForType(_t: Type): Sourcelike | undefined {
