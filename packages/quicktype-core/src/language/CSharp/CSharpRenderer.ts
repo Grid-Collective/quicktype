@@ -370,11 +370,10 @@ export class CSharpRenderer extends ConvenienceRenderer {
 
         this.ensureBlankLine();
         if (this.needNamespace()) {
-            this.emitLine("namespace ", this._csOptions.namespace);
-            this.emitBlock(() => {
-                this.emitUsings();
-                this.emitTypesAndSupport();
-            });
+            this.emitLine("namespace ", this._csOptions.namespace, ";");
+            this.emitUsings();
+            this.emitTypesAndSupport();
+
         } else {
             this.emitUsings();
             this.emitTypesAndSupport();
