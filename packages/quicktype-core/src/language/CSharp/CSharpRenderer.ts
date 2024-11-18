@@ -333,7 +333,7 @@ export class CSharpRenderer extends ConvenienceRenderer {
     }
 
     protected emitUsings(): void {
-        for (const ns of ["System", "System.Collections.Generic"]) {
+        for (const ns of []) {
             this.emitUsing(ns);
         }
     }

@@ -238,7 +238,6 @@ export class SystemTextJsonCSharpRenderer extends CSharpRenderer {
         // }
 
         attributes.push(["[", jsonPropertyName, '("', escapedName, '")]']);
-
         const converter = this.converterForType(property.type);
         if (converter !== undefined) {
             attributes.push(["[JsonConverter(typeof(", converter, "))]"]);
