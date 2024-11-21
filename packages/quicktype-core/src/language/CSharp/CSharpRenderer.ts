@@ -17,8 +17,7 @@ import {
     AccessModifier,
     csTypeForTransformedStringType,
     namingFunction,
-    namingFunctionKeep,
-    noFollow
+    namingFunctionKeep
 } from "./utils";
 
 export class CSharpRenderer extends ConvenienceRenderer {
@@ -114,7 +113,12 @@ export class CSharpRenderer extends ConvenienceRenderer {
             enumType => this.nameForNamedType(enumType),
             unionType => {
                 const nullable = nullableFromUnion(unionType);
-                if (nullable !== null) return this.nullableCSType(nullable, noFollow);
+                if (nullable !== null) {
+                    t = followTargetType(nullable);
+                    const csType = this.csType(t, follow);
+                    return [csType];
+                }
+
                 return this.nameForNamedType(unionType);
             },
             transformedStringType => csTypeForTransformedStringType(transformedStringType)

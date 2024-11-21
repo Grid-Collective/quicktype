@@ -216,10 +216,9 @@ export class SystemTextJsonCSharpRenderer extends CSharpRenderer {
 
         const jsonPropertyName = this._options.dense ? denseJsonPropertyName : "JsonPropertyName";
         const escapedName = utf16StringEscape(jsonName);
-        const isNullable = followTargetType(property.type).isNullable;
         const isOptional = property.isOptional;
 
-        if (isOptional && !isNullable) {
+        if (isOptional) {
             attributes.push(["[", "JsonIgnore", "(Condition = JsonIgnoreCondition.WhenWritingNull)]"]);
         }
 
